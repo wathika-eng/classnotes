@@ -1,0 +1,29 @@
+{% extends "mainapp/base.html" %}
+{% block title %}{{ department.name }}{% endblock %}
+
+{% block content %}
+    <small class="text-primary my-3">
+        <strong>
+            <a href="{% url 'dashboard' %}" class="text-decoration-none">
+                <i class="bi bi-house-door-fill"></i>
+            </a>
+            <span> > </span>
+            <a href="#" class="text-decoration-none">{{ department.name | capfirst }}</a>
+        </strong>
+    </small>
+    <h1>{{ department.name }}</h1>
+    <!-- Display other details or notes related to the unit topic -->
+    {% for course in courses %}
+        <p class="py-1">
+            <div class="text-primary h4">
+                <div>
+                    <a class="text-decoration-none" href="{% url 'course_details' course.pk %}">
+                        <i class="bi bi-folder-fill"></i>
+                        <span>{{ course.get_display_name }}</span>
+                    </a>
+                </div>
+            </div>
+        </p>
+        <hr>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "mainapp/base.html" %}
+
+{% block content %}
+<!-- Modal -->
+<div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'submit_request' %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="requestModalLabel">Submit a Request</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="requestTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="requestTitle" name="title">
+          </div>
+          <div class="mb-3">
+            <label for="requestDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="requestDescription" name="description" rows="3"></textarea>
+          </div>
+          <!-- Add other form fields as needed -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Submit Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

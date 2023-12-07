@@ -1,0 +1,66 @@
+{% extends "mainapp/base.html" %}
+{% block title %}{{ course.name }}{% endblock %}
+
+{% block content %}
+    <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    <div class="container">
+        <p class="text-primary my-3 lead">
+            <a href="{% url 'dashboard' %}" class="text-decoration-none">
+                <i class="bi bi-house-door-fill"></i>
+            </a>
+            <span> > </span>
+            <a href="{% url 'department_details' course.department.id %}" class="text-decoration-none">{{ course.department.name | capfirst }}</a>
+            <span> > </span>
+            <a href="#{{ course.name | lower }}" class="text-decoration-none">{{ course.get_display_name }}</a>
+        </p>
+        <h1>{{ course.get_display_name }}</h1>
+
+        {% for year, units in units_by_year.items %}
+            <h2 class="text-center">Year {{ year }}</h2>
+            <table class="table table-hover" id="unitTable_{{ year }}">
+                <thead>
+                    <tr>
+                        <th>Unit Name</th>
+                        <th>Semester</th>
+                        <!-- Add other headers if needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for unit in units %}
+                        <tr>
+                            <td><a href="{% url 'unit_details' unit.id %}" style="text-decoration: none;">{{ unit.name }}</a></td>
+                            <td>{{ unit.sem }}</td>
+                            <!-- Add other unit details as table cells -->
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center">No units available for Year {{ year }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% empty %}
+            <p class="text-center">No units</p>
+        {% endfor %}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            {% for year, units in units_by_year.items %}
+                $('#unitTable_{{ year }}').DataTable({
+                    "order": [], // Disable initial sorting
+                    "paging": true,
+                    "searching": true,
+                    "info": false,
+                    "lengthChange": false,
+                });
+            {% endfor %}
+        });
+    </script>
+{% endblock %}

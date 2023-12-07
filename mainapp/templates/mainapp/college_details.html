@@ -1,0 +1,20 @@
+{% extends "mainapp/base.html" %}
+{% block title %}{{ college.name }}{% endblock %}
+
+{% block content %}
+    <!-- Display other details or notes related to the unit topic -->
+    <h1>{{ college.name }}</h1>
+    {% for school in schools %}
+        <p class="py-1">
+            <div class="text-primary h4">
+                <div>
+                    <a class="text-decoration-none" href="{% url 'department_details' school.pk %}">
+                        <i class="bi bi-folder-fill"></i>
+                        <span>{{ school.name }}</span>
+                    </a>
+                </div>
+            </div>
+        </p>
+        <hr>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "mainapp/base.html" %}
+{% block title %}{{ unit.name }}{% endblock %}
+
+{% block content %}
+    <p class="text-primary my-3 lead">
+        <a href="{% url 'dashboard' %}" class="text-decoration-none">
+            <i class="bi bi-house-door-fill"></i>
+        </a>
+        <span> > </span>
+        <a href="{% url 'department_details' unit.course.department.id %}" class="text-decoration-none">{{ unit.course.department.name | capfirst  }}</a>
+        <span> > </span>
+        <a href="{% url 'course_details' unit.course.id %}" class="text-decoration-none">{{ unit.course.get_display_name | capfirst }}</a>
+        <span> > </span>
+        <a href="#{{ unit.name | lower }}" class="text-decoration-none">{{ unit.name | capfirst }}</a>
+    </p>
+    <h1>{{ unit.name }} Topics</h1>
+    <!-- Display other details or notes related to the unit topic -->
+    {% for note in notes %}
+    <p class="py-1">
+        <div class="d-flex justify-content-between text-primary h4">
+            <div>
+                <a class="text-decoration-none" href="{{ note.file.url }}" target="_blank">
+                    <i class="bi bi-file-earmark-richtext"></i>
+                    <span>{{note.get_display_name}}</span>
+                </a>
+            </div>
+            <div class="download-wrapper">
+                <a  href="{{ note.file.url }}" target="_blank">
+                    <i class="bi bi-eye"></i></a> |
+                    <a class="download-link" href="{{ note.file.url }}" download="">
+                        <i class="bi bi-download"></i>
+                    </a>
+                <div class="progress mt-2" style="display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </p>
+    <hr>
+{% empty %}
+    <p class="text-center">No notes</p>
+{% endfor %}
+    {% comment %} {% for unit_topic in unit_topics %}
+        <p class="py-1">
+            <div class="text-primary h4">
+                <div>
+                    <a class="text-decoration-none" href="{% url 'unit_topic_details' unit_topic.pk %}">
+                        <i class="bi bi-folder-fill"></i>
+                        <span>{{ unit_topic.name }} Notes</span>
+                    </a>
+                </div>
+            </div>
+        </p>
+        <hr>
+    {% empty %}
+        <p class="text-center">No notes</p>
+    {% endfor %} {% endcomment %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".download-link").click(function(e){
+                e.preventDefault();
+                var downloadLink = $(this);
+    
+                // Hide the download link and show the progress bar
+                downloadLink.hide();
+                downloadLink.after('<div class="progress mt-2" style="width: 100px;"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>');
+    
+                var progressBar = downloadLink.next('.progress').find('.progress-bar');
+                var progressValue = 0;
+    
+                // Simulate progress for a certain duration (e.g., 5 seconds)
+                var interval = setInterval(function() {
+                    progressValue += 20; // Increment the progress value (20% per second for 5 seconds)
+                    progressBar.css('width', progressValue + '%');
+                    progressBar.attr('aria-valuenow', progressValue);
+    
+                    if (progressValue >= 100) {
+                        clearInterval(interval); // Stop the progress simulation
+    
+                        // Hide the progress bar and show the download button again
+                        downloadLink.next('.progress').remove();
+                        downloadLink.show();
+    
+                        // Simulate download after a delay (e.g., 1 second)
+                        setTimeout(function() {
+                            // Trigger the download by dynamically creating an <a> element
+                            var downloadAnchor = document.createElement('a');
+                            downloadAnchor.href = downloadLink.attr('href');
+                            downloadAnchor.download = downloadLink.attr('download');
+                            downloadAnchor.click();
+                        }, 1000); // Simulated delay of 1 second
+                    }
+                }, 1000); // Update every second
+            });
+        });
+        </script>
+{% endblock %}
