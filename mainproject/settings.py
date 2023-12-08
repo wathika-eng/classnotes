@@ -25,6 +25,9 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # CSRF_TRUSTED_ORIGINS = [
 
 # ]
+
+
+# https://www.youtube.com/watch?v=yuOK6D7deTo&t=110s
 # Application definition
 
 # The email backend to use. For possible shortcuts see django.core.mail.
@@ -40,13 +43,15 @@ EMAIL_PORT = 587
 # Whether to send SMTP 'Date' header in the local time zone or in UTC.
 EMAIL_USE_LOCALTIME = True
 # Optional SMTP authentication information for EMAIL_HOST.
-EMAIL_HOST_USER = "testkuku23@gmail.com"
-EMAIL_HOST_PASSWORD = "apju bxmq spkk zrvq"
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_SSL_CERTFILE = None
 EMAIL_TIMEOUT = None
 DEFAULT_FROM_EMAIL = 'Uninotes <noreply@projectsdjango.com>'
+
+#test with https://www.gmass.co/smtp-test
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -87,7 +92,6 @@ ROOT_URLCONF = 'mainproject.urls'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT = "login"
 LOGIN_REDIRECT_URL = 'dashboard'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -116,6 +120,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
