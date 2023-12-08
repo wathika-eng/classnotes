@@ -3,6 +3,7 @@
         Note created successfully!
     </div>
 </div>
+<div class="container bg-light shadow-lg p-5 form-layout">
 <form id="notes-form" enctype="multipart/form-data" class="form">
     {% csrf_token %}
     <div class="mb-3">
@@ -57,5 +58,6 @@
  
     
 
-    <button type="submit" class="btn btn-outline-primary">Submit</button>
+    <button type="submit" class="btn btn-outline-primary w-100 btn-block p-2">Submit</button>
 </form>
+</div>

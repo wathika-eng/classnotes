@@ -22,8 +22,31 @@ DEBUG = True #config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
+# CSRF_TRUSTED_ORIGINS = [
 
+# ]
 # Application definition
+
+# The email backend to use. For possible shortcuts see django.core.mail.
+# The default is to use the SMTP backend.
+# Third-party backends can be specified by providing a Python path
+# to a module that defines an EmailBackend class.
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+# Host for sending email.
+EMAIL_HOST = "smtp.gmail.com"
+# Port for sending email.
+EMAIL_PORT = 587
+# Whether to send SMTP 'Date' header in the local time zone or in UTC.
+EMAIL_USE_LOCALTIME = True
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = "testkuku23@gmail.com"
+EMAIL_HOST_PASSWORD = "apju bxmq spkk zrvq"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_SSL_CERTFILE = None
+EMAIL_TIMEOUT = None
+DEFAULT_FROM_EMAIL = 'Uninotes <noreply@projectsdjango.com>'
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -61,7 +84,10 @@ CACHES = {
 }
 
 ROOT_URLCONF = 'mainproject.urls'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT = "login"
+LOGIN_REDIRECT_URL = 'dashboard'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -81,8 +107,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mainproject.wsgi.application'
 
-#DB
-#https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# DB
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -90,9 +116,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-
-
 
 
 # Password validation
@@ -117,6 +140,7 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 LANGUAGE_CODE = 'en-us'
+
 
 TIME_ZONE = 'Africa/Nairobi'
 

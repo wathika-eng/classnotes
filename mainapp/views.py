@@ -9,34 +9,12 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Note
-from django.views.decorators.csrf import csrf_exempt
-
-
-# Create your views here.
-
+from django.core.files.storage import FileSystemStorage
 from django.views.generic.edit import FormView
-
-class FileFieldFormView(FormView):
-    form_class = NoteForm
-    template_name = "mainapp/create_note.html"
-    success_url = reverse_lazy('dashboard')
-
-    def form_valid(self, form):
-        files = self.request.FILES.getlist('note_file')
-        for f in files:
-            try:
-                with open('media/media/media/' + f.name, 'wb+') as destination:
-                    for chunk in f.chunks():
-                        destination.write(chunk)
-                new_file = Note(file=f)
-                new_file.save()
-            except Exception as e:
-                traceback.print_exc()  # Print the error to console
-                # Handle the error as needed
-                messages.error(self.request, f"Error uploading file '{f.name}': {e}")
-
-        messages.success(self.request, "Uploaded successfully")
-        return super().form_valid(form)
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.shortcuts import render
+from django.contrib.auth.models import User  # Replace with your User model import
 
 
 def register(request):
@@ -113,11 +91,32 @@ def dashboard(request):
     }
     return render(request, "mainapp/dashboard.html", context=context)
 
+class FileFieldFormView(FormView):
+    form_class = NoteForm
+    template_name = "mainapp/create_note.html"
+    success_url = reverse_lazy('dashboard')
+
+    def form_valid(self, form):
+        files = self.request.FILES.getlist('note_file')
+        for f in files:
+            try:
+                with open('media/media/media/' + f.name, 'wb+') as destination:
+                    for chunk in f.chunks():
+                        destination.write(chunk)
+                new_file = Note(file=f)
+                new_file.save()
+            except Exception as e:
+                traceback.print_exc()  # Print the error to console
+                # Handle the error as needed
+                messages.error(self.request, f"Error uploading file '{f.name}': {e}")
+
+        messages.success(self.request, "Uploaded successfully")
+        return super().form_valid(form)
+    
 def handle_files(f):
     try:
-        with open('/media/media/' + f.name, 'wb+') as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
+        storage = FileSystemStorage()
+        filename = storage.save(f.name, f)
     except Exception as e:
         traceback.print_exc()  # Print the error to console
         # Handle the error as needed
@@ -173,3 +172,17 @@ def create_unit(request):
         form = UnitForm()
 
     return render(request, 'mainapp/unit_create.html', {'form': form})
+
+
+def send_password_reset_email(request):
+    # Logic to identify the user requesting password reset
+    user_data = User.objects.get(username='username')  # Example: Get the user object based on a username
+
+    subject = 'Password Reset Request'
+    html_message = render_to_string('mainapp/registration/email/password_reset_email.html', {'user': user_data})
+    from_email = 'testkuku23@gmail.com'
+    recipient_list = [user_data.email]  # Use the user's email address
+
+    send_mail(subject, '', from_email, recipient_list, html_message=html_message)
+
+    return render(request, 'mainapp/registration/password_reset_done.html')

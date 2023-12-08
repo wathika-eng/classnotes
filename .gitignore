@@ -1,7 +1,5 @@
 venv/
-
 db.sqlite
-
 venv/
 venv
 emobilisenv
@@ -12,14 +10,8 @@ migrations/__pycache__
 
 .env
 env
-
-
-
-
-
-
-
-
+media/
+media
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python

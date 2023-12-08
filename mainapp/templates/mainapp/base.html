@@ -19,13 +19,15 @@
 <div class="container">
     <br>
     <!-------notifications --->
-    <div class="container-sm">
+     <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-8 mx-auto">
         {% for message in messages %}
         <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
           <strong>{{ message }}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endfor %}
+    </div>
     </div>
 
     {% block content %}

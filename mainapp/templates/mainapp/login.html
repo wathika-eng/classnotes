@@ -6,37 +6,5 @@
 Login
 {% endblock %}
 {% block content %}
-    <div class="container bg-light shadow-md p-5 form-layout">
-        <h3><b>Login to your account</b></h3>
-        <form method="POST" autocomplete="on">
-        {% csrf_token %}
-            {{form.username|as_crispy_field}}
-        <div class="input-group">
-            {{ form.password|as_crispy_field }}
-            <a id="showPasswordBtn"><i class="bi bi-eye"></i></a>
-        </div>
-        <br>
-        <button class="btn-btn-primary w-100 btn-block p-2" type="submit">Login <i class="bi bi-key"></i></button>
-        </form>
-    <br>
-    <div class="text-center">
-        <p>Don't have an account? </p>
-        <a href="{% url 'register' %}">Register</a>
-    </div>
-    </div>
-        <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const showPasswordBtn = document.getElementById('showPasswordBtn');
-        const passwordField = document.querySelector('input[type="password"]');
-
-        showPasswordBtn.addEventListener('click', function() {
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-            } else {
-                passwordField.type = 'password';
-            }
-        });
-    });
-    </script>
-
+{% include "registration/login.html" %}
 {% endblock %}
