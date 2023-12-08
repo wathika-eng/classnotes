@@ -25,9 +25,6 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # CSRF_TRUSTED_ORIGINS = [
 
 # ]
-
-
-# https://www.youtube.com/watch?v=yuOK6D7deTo&t=110s
 # Application definition
 
 # The email backend to use. For possible shortcuts see django.core.mail.
@@ -114,13 +111,14 @@ WSGI_APPLICATION = 'mainproject.wsgi.application'
 # DB
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 
 # Password validation
