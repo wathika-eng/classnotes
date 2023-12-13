@@ -20,13 +20,18 @@ It offers a centralized platform where students and faculty can upload, organize
 
 To use the University Notes Project locally, follow these steps:
 
-* Clone the repository: `git clone <repository-url>`
-* Make a virtual environment: `python -m virtualenv venv`
-* Activate the venv: `source venv/scripts/activate`
-* or on Linux: `source venv/bin/activate`
-* Install dependencies: `pip install -r requirements.txt`
-* Set up the database and run migrations: `python manage.py makemigrations` `python manage.py migrate`
-* Run the development server: `python manage.py runserver`
+* Clone the repository: ```git clone <repository-url>```
+* Make a virtual environment: ```python -m virtualenv venv```
+* Activate the venv: ```source venv/scripts/activate```
+* or on Linux: ```source venv/bin/activate```
+* Install dependencies: ```pip install -r requirements.txt```
+* Set up the database and run migrations: ```python manage.py makemigrations``` ```python manage.py migrate```
+* Create superuser ```python manage.py createsuperuser```
+* Run the development server: ```python manage.py runserver`
+
+
+***Script for getting started with Django***
+      [![Django script](https://github.com/wathika-eng/resources/blob/main/django)]
 
 **Usage**
 
@@ -43,3 +48,12 @@ Contributions to the University Notes Project are welcome! Fork the repository, 
 **License**
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
+
+
+Watch how to set-up Email configurations for forgot password:
+      https://youtu.be/yuOK6D7deTo - SMTP server
+
+      https://youtu.be/sFPcd6myZrY
+
+How to host for free on Ngrok:
+    https://youtu.be/fE_TXcd2T4g

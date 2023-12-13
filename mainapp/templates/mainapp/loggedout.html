@@ -1,0 +1,100 @@
+<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'dashboard' %}">Home <i class="bi bi-house-door"></i></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'register' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#staticBackdrop">Support</a>
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Support the developers:</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" style="color: white;">
+                    <form id="paymentForm" action="{% url 'mpesa' %}" method="post">
+                      {% csrf_token %}
+                      <label for="phone_number">Phone Number:</label>
+                      <input type="text" id="phone_number" name="phone_number" required><br><br>
+            
+                      <label for="amount">Amount:</label>
+                      <input type="number" id="amount" name="amount" required><br><br>
+            
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+                    <li class="nav-item" style="cursor: pointer">
+            <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Submit a request</a>
+          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <div class="modal-body"  style="color: white;">
+             <form method="post" action="{% url 'submit_request' %}">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title" id="requestModalLabel">Submit a Request</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="requestTitle" class="form-label">Your school</label>
+              <input type="text" class="form-control" id="requestTitle" name="yourschool">
+            </div>
+            <div class="mb-3">
+              <label for="requestDescription" class="form-label">Your course</label>
+              <input type="text" class="form-control" id="requestDescription" name="yourcourse" rows="3">
+            </div>
+                        <div class="mb-3">
+              <label for="requestDescription" class="form-label">Enquiry</label>
+              <textarea required class="form-control" id="requestDescription" name="enquiry" rows="3"></textarea>
+            </div>
+            <!-- Add other form fields as needed -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+          </div>
+        </form>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+                    </li>
+             <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              JKUAT
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Past papers</a></li>
+              <li><a class="dropdown-item" rel="noreferrer" target="_blank" href="https://portal.jkuat.ac.ke/">Students portal</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Class rep contacts</a></li>
+            </ul>
+          </li>
+          <li class="nav-item" id="mm">
+            <a class="nav-link active" target="_blank" rel="noreferrer nofollow" href="mailto:wathika.wanini1@students.jkuat.ac.ke">Contact us</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

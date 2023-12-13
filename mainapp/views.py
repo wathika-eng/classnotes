@@ -2,6 +2,7 @@ import traceback
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import json
+from django_daraja.mpesa.core import MpesaClient
 from django.contrib import messages
 from django.urls import reverse_lazy
 from .forms import *
@@ -180,9 +181,29 @@ def send_password_reset_email(request):
 
     subject = 'Password Reset Request'
     html_message = render_to_string('mainapp/registration/email/password_reset_email.html', {'user': user_data})
-    from_email = 'testkuku23@gmail.com'
+    from_email = ''
     recipient_list = [user_data.email]  # Use the user's email address
 
     send_mail(subject, '', from_email, recipient_list, html_message=html_message)
 
     return render(request, 'mainapp/registration/password_reset_done.html')
+
+def mpesa(request):
+    if request.method == 'POST':
+        phone_number = request.POST.get('phone_number')  # Get phone number from frontend form
+        amount = request.POST.get('amount')  # Get amount from frontend form
+
+        try:
+            amount = int(amount)  # Convert the amount string to an integer
+        except ValueError:
+            return HttpResponse("Invalid amount. Please enter a valid integer amount.")
+
+        account_reference = 'reference'
+        transaction_desc = 'Description'
+        callback_url = ''
+        previous_url = request.META.get('HTTP_REFERER')
+        cl = MpesaClient()
+        response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+        return render(request, 'mainapp/money.html', {'success_message': 'Payment successful!', 'previous_url': previous_url})
+
+    return render(request, 'mainapp/money.html')

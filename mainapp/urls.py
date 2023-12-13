@@ -6,11 +6,10 @@ from . import note_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    # path("", views.home, name="index"),
-    # path("", views.dashboard, name="dashboard"),
     path("register", views.register, name="register"),
     path("login", views.my_login, name="login"),
     path("logout", views.my_logout, name="mylogout"),
+    path("", views.dashboard, name="dashboard"),
     path("dash", views.dashboard, name="dashboard"),
     path('send-reset-email/', views.send_password_reset_email, name='send_password_reset_email'),
     path("create_record", views.create_record, name="create_record"),
@@ -28,12 +27,7 @@ urlpatterns = [
     path('department_details/<int:department_id>/', note_views.department_details, name="department_details"),
     path('school_details/<int:school_id>/', note_views.school_details, name="school_details"),
     path('college_details/<int:college_id>/', note_views.college_details, name="college_details"),
-    
-    # path(r'^password_reset/$', auth_views.password_reset, name='password_reset'),
-    # path(r'^password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
-    # path(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-    #     auth_views.password_reset_confirm, name='password_reset_confirm'),
-    # path(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+    path('mpesa', views.mpesa, name="mpesa"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
