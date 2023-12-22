@@ -122,20 +122,14 @@ def get_units(request):
 @login_required(login_url="login")
 def submit_notes(request):
     if request.method == 'POST':
-        # Handle form submission, create/update models, and save the note file
-        # Replace the following with your actual implementation
-
         try:
             college_id = request.POST.get('college')
             school_id = request.POST.get('school')
             department_id = request.POST.get('department')
             course_id = request.POST.get('course')
             unit_id = request.POST.get('unit')
-            # unit_topic_name = request.POST.get('unit_topic')
             note_title = request.POST.get('title')
-            note_file = request.FILES.get('note_file')
-
-            # Create or get existing models based on the form data
+            
             college = College.objects.get(id=college_id)
             school = School.objects.get(id=school_id)
             department = Department.objects.get(id=department_id)
@@ -145,11 +139,11 @@ def submit_notes(request):
             # Create or update the UnitTopic
             # unit_topic, created = UnitTopic.objects.get_or_create(name=unit_topic_name, unit=unit)
 
-            # Save the Note
-            note = Note(title=note_title, file=note_file, uploaded_by=request.user, unit=unit)
-            note.save()
-
-            # return redirect('unit_topic_details', unit_topic_id=unit_topic.id)
+            # Loop through the files and save each one
+            for file in request.FILES.getlist('note_file'):
+                note = Note(title=note_title, file=file, uploaded_by=request.user, unit=unit)
+                note.save()
+            
             return JsonResponse({'success': True, 'message': f"/unit_details/{unit.id}"})
         except Exception as e:
             return JsonResponse({'success': False, 'message': f'Error: {str(e)}'})

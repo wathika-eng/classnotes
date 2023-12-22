@@ -1,6 +1,6 @@
 import traceback
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import json
 from django_daraja.mpesa.core import MpesaClient
 from django.contrib import messages
@@ -99,17 +99,22 @@ class FileFieldFormView(FormView):
 
     def form_valid(self, form):
         files = self.request.FILES.getlist('note_file')
-        for f in files:
-            try:
-                with open('media/media/media/' + f.name, 'wb+') as destination:
-                    for chunk in f.chunks():
-                        destination.write(chunk)
-                new_file = Note(file=f)
-                new_file.save()
-            except Exception as e:
+        try:
+            for file in files:
+                existing_file = Note.objects.filter(title=file.name).first()
+                if existing_file:
+            # If a file with the same name exists, show a warning message
+                    messages.warning(
+                        self.request,
+                        f"File '{file.name}' already exists. Do you want to overwrite it?"
+                        )
+                    return JsonResponse({'success': False, 'message': 'File already exists'})
+                note = Note(file=file, uploaded_by=self.request.user, unit=form.cleaned_data['unit'])
+                note.save()
+        except Exception as e:
                 traceback.print_exc()  # Print the error to console
                 # Handle the error as needed
-                messages.error(self.request, f"Error uploading file '{f.name}': {e}")
+                messages.error(self.request, f"Error uploading file '{file.name}': {e}")
 
         messages.success(self.request, "Uploaded successfully")
         return super().form_valid(form)
@@ -122,6 +127,7 @@ def handle_files(f):
         traceback.print_exc()  # Print the error to console
         # Handle the error as needed
 
+@login_required(login_url="login")
 def create_record(request):
     if request.method == 'POST':
         form = NoteForm(request.POST, request.FILES)

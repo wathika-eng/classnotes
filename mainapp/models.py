@@ -1,5 +1,5 @@
 import os
-
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 from django.contrib.auth.models import User
 from django.db import models
 

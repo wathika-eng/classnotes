@@ -1,3 +1,9 @@
+{% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
 <div id="success-alert" class="d-none">
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         Note created successfully!
@@ -55,9 +61,15 @@
         <label for="note_file" class="form-label">Note File:</label>
         <input multiple id="multiplefileupload" required type="file" id="note_file" name="note_file" class="form-control" accept=".pdf, .doc, .docx">
     </div>
- 
-    
-
-    <button type="submit" class="btn btn-outline-primary w-100 btn-block p-2">Submit</button>
+    <button type="submit" id="submitBtn" class="btn btn-outline-primary w-100 btn-block p-2">Submit</button>
 </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#notes-form').submit(function() {
+            $('#submitBtn').html('Scanning for virus...');
+        });
+    });
+</script>

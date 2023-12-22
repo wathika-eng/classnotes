@@ -49,10 +49,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mainapp.apps.MainappConfig',
+    'cloudinary_storage',  #Refer to https://pypi.org/project/django-cloudinary-storage/ documentation
+    'cloudinary',
     "crispy_forms",
     "crispy_bootstrap5",
     'django_daraja',
 ]
+
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': '',
+#     'API_KEY': '',
+#     'API_SECRET': ''
+# }
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
@@ -163,6 +171,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Internationalization
@@ -182,6 +191,9 @@ STATIC_URL = 'static/'
 
 MEDIA_URL = 'media/'
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
+
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 if DEBUG:
 
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'mainapp/static')]
@@ -189,7 +201,7 @@ if DEBUG:
 else:
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'mainapp/static')
-
+    
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
