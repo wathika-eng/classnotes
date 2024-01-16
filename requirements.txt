@@ -13,6 +13,7 @@ django-jazzmin==2.6.0
 idna==3.6
 pycparser==2.21
 pymemcache==4.0.0
+django-cloudinary-storage==0.3.0
 PyMySQL==1.1.0
 python-decouple==3.8
 python-dotenv==1.0.0
