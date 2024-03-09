@@ -1,4 +1,4 @@
-[![Build and deploy Python app to Azure Web App - classnotes](https://github.com/wathika-eng/uninotes/actions/workflows/main_classnotes.yml/badge.svg)](https://github.com/wathika-eng/uninotes/actions/workflows/main_classnotes.yml)
+**Short demo on how it works** => https://streamable.com/n4e24o
 
 **University Notes Project**
 
