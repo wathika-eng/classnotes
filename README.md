@@ -1,4 +1,4 @@
-**Short demo on how it works** => https://streamable.com/n4e24o
+**Short demo on how it works** => https://mega.nz/file/qH51TAja#__5rijCfhn-VfKOwdnYkyTSw2ciOKHUjBnVZXfEwPVY
 
 **University Notes Project**
 
