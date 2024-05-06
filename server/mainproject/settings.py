@@ -1,6 +1,5 @@
 import os
-
-# from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 import environ
 from pathlib import Path
 import pymysql.cursors
@@ -16,7 +15,7 @@ env = environ.Env(
 )
 
 # dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-# load_dotenv(dotenv_path)
+load_dotenv()
 # Initialise environment variables
 # env = environ.Env()
 # environ.Env.read_env()
@@ -26,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+# environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "****************hidden*************************************"
@@ -48,20 +47,26 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "cloudinary_storage",
     "django.contrib.staticfiles",
+    "cloudinary",
     "mainapp.apps.MainappConfig",
     # "cloudinary_storage",  # Refer to https://pypi.org/project/django-cloudinary-storage/ documentation
     # "cloudinary",
+    "livereload",
     "crispy_forms",
     "crispy_bootstrap5",
     "django_daraja",
+    "django_otp",
+    "django_otp.plugins.otp_totp",
 ]
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': '',
-#     'API_KEY': '',
-#     'API_SECRET': ''
-# }
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUD_NAME"),
+    "API_KEY": os.getenv("API_KEY"),
+    "API_SECRET": os.getenv("API_SECRET"),
+}
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
@@ -74,8 +79,10 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "livereload.middleware.LiveReloadScript",
 ]
 
 CACHES = {
@@ -172,7 +179,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+STATIC_URL = "/static/"
+STATICFILES_STORAGE = "cloudinary_storage.storage.StaticHashedCloudinaryStorage"
+
+# STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
