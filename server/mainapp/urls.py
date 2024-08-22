@@ -1,69 +1,76 @@
+from .views import (
+    SchoolListCreateView,
+    CollegeListCreateView,
+    CollegeRetrieveUpdateDestroyView,
+    DepartmentListCreateView,
+    CourseListCreateView,
+    UnitListCreateView,
+    NoteListCreateView,
+    UserListCreateView,
+    UnitTopicListCreateView,
+    UserRequestListCreateView,
+    SchoolRetrieveUpdateDestroyView,
+    DepartmentRetrieveUpdateDestroyView,
+    CourseRetrieveUpdateDestroyView,
+    UnitRetrieveUpdateDestroyView,
+    NoteRetrieveUpdateDestroyView,
+    UserRetrieveUpdateDestroyView,
+    UnitTopicRetrieveUpdateDestroyView,
+    UserRequestRetrieveUpdateDestroyView,
+)
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
-from . import views
-from . import note_views
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.models import User
-from django_otp.admin import OTPAdminSite
-from django_otp.plugins.otp_totp.models import TOTPDevice
-from django_otp.plugins.otp_totp.admin import TOTPDeviceAdmin
 
-
-class OTPAdmin(OTPAdminSite):
-    pass
-
-
-admin_site = OTPAdmin(name="OTPAdmin")
-admin_site.register(User)
-admin_site.register(TOTPDevice, TOTPDeviceAdmin)
 urlpatterns = [
-    path("register", views.register, name="register"),
-    path("login", views.my_login, name="login"),
-    path("logout", views.my_logout, name="mylogout"),
-    path("", views.dashboard, name="dashboard"),
-    path("dash", views.dashboard, name="dashboard"),
+    path("colleges", CollegeListCreateView.as_view(), name="college-list-create"),
     path(
-        "send-reset-email/",
-        views.send_password_reset_email,
-        name="send_password_reset_email",
+        "colleges<int:pk>",
+        CollegeRetrieveUpdateDestroyView.as_view(),
+        name="college-rud",
     ),
-    path("create_record", views.create_record, name="create_record"),
-    path("unit", views.create_unit, name="unit"),
-    path("submit_request/", views.submit_request, name="submit_request"),
-    path("get_colleges/", note_views.get_colleges, name="get_colleges"),
-    path("get_schools/", note_views.get_schools, name="get_schools"),
-    path("get_departments/", note_views.get_departments, name="get_departments"),
-    path("get_courses/", note_views.get_courses, name="get_courses"),
-    path("get_units/", note_views.get_units, name="get_units"),
-    path("submit_notes/", note_views.submit_notes, name="submit_notes"),
+    path("schools", SchoolListCreateView.as_view(), name="school-list-create"),
     path(
-        "unit_topic_details/<int:unit_topic_id>/",
-        note_views.unit_topic_details,
-        name="unit_topic_details",
+        "departments",
+        DepartmentListCreateView.as_view(),
+        name="department-list-create",
     ),
-    path("unit_details/<int:unit_id>/", note_views.unit_details, name="unit_details"),
+    path("courses", CourseListCreateView.as_view(), name="course-list-create"),
+    path("units", UnitListCreateView.as_view(), name="unit-list-create"),
+    path("notes", NoteListCreateView.as_view(), name="note-list-create"),
+    path("users", UserListCreateView.as_view(), name="user-list-create"),
     path(
-        "course_details/<int:course_id>/",
-        note_views.course_details,
-        name="course_details",
+        "unit-topics", UnitTopicListCreateView.as_view(), name="unit-topic-list-create"
     ),
     path(
-        "department_details/<int:department_id>/",
-        note_views.department_details,
-        name="department_details",
+        "user-requests",
+        UserRequestListCreateView.as_view(),
+        name="user-request-list-create",
     ),
     path(
-        "school_details/<int:school_id>/",
-        note_views.school_details,
-        name="school_details",
+        "schools<int:pk>",
+        SchoolRetrieveUpdateDestroyView.as_view(),
+        name="school-rud",
     ),
     path(
-        "college_details/<int:college_id>/",
-        note_views.college_details,
-        name="college_details",
+        "departments<int:pk>",
+        DepartmentRetrieveUpdateDestroyView.as_view(),
+        name="department-rud",
     ),
-    path("mpesa", views.mpesa, name="mpesa"),
+    path(
+        "courses<int:pk>",
+        CourseRetrieveUpdateDestroyView.as_view(),
+        name="course-rud",
+    ),
+    path("units<int:pk>", UnitRetrieveUpdateDestroyView.as_view(), name="unit-rud"),
+    path("notes<int:pk>", NoteRetrieveUpdateDestroyView.as_view(), name="note-rud"),
+    path("users<int:pk>", UserRetrieveUpdateDestroyView.as_view(), name="user-rud"),
+    path(
+        "unit-topics<int:pk>",
+        UnitTopicRetrieveUpdateDestroyView.as_view(),
+        name="unit-topic-rud",
+    ),
+    path(
+        "user-requests<int:pk>",
+        UserRequestRetrieveUpdateDestroyView.as_view(),
+        name="user-request-rud",
+    ),
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

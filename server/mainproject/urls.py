@@ -7,6 +7,11 @@ from django.conf.urls.static import static
 from django_otp.admin import OTPAdminSite
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp.plugins.otp_totp.admin import TOTPDeviceAdmin
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from rest_framework_simplejwt.views import TokenVerifyView
 
 
 class OTPAdmin(OTPAdminSite):
@@ -19,8 +24,11 @@ admin_site.register(TOTPDevice, TOTPDeviceAdmin)
 
 urlpatterns = [
     path(r"admin", admin_site.urls),
-    path(r"", include("mainapp.urls")),
-    path(r"", include("django.contrib.auth.urls")),
+    path(r"api/", include("mainapp.urls")),
+    path(r"api-auth/", include("rest_framework.urls")),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     # path('auth/', include('social_django.urls', namespace='social')),
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     # url(r'^admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),

@@ -1,8 +1,7 @@
-import os
-
-# from cloudinary_storage.storage import RawMediaCloudinaryStorage
+import uuid
 from django.contrib.auth.models import User
 from django.db import models
+import os
 
 # Create your models here.
 
@@ -131,31 +130,24 @@ class UnitTopic(models.Model):
         unique_together = ["name", "unit"]
 
 
-class Note(models.Model):
-    """
-    Takes in a Note file for a particular unit's topic
-    """
+def note_file_path(instance, filename):
+    ext = filename.split(".")[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"  # Use UUID for unique filenames
+    return os.path.join("media/", filename)
 
+
+class Note(models.Model):
     title = models.CharField(max_length=50, null=True, blank=True)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE, null=True, blank=False, related_name="notes"
     )
-    file = models.FileField(upload_to="media/")
+    file = models.FileField(upload_to=note_file_path)  # Use the updated path function
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=False)
 
-    #     def get_display_name(self):
-    #     file_name = os.path.splitext(os.path.basename(self.file.name))[0]
-    #     return file_name if self.title is None else self.title
-
-    # def __str__(self):
-    #     return self.get_display_name()
-
     def get_display_name(self):
-        if self.title is not None:
-            return f"{os.path.basename(self.file.name)}"
-        return f"{os.path.basename(self.file.name)}"
+        return self.title if self.title else os.path.basename(self.file.name)
 
     def __str__(self):
         return self.get_display_name()
@@ -163,18 +155,13 @@ class Note(models.Model):
     class Meta:
         unique_together = (
             ("title", "unit"),
-            ("title", "file"),
-            ("unit", "file"),
-            ("title", "unit", "file"),
+            ("file", "unit"),
         )
 
     def save(self, *args, **kwargs):
         if not self.title:
             # Extract filename without extension and set it as title
             self.title = os.path.splitext(os.path.basename(self.file.name))[0]
-        # Update the file name before saving
-        if self.file.name != "":
-            self.file.name = note_file_path(self, os.path.basename(self.file.name))
         super().save(*args, **kwargs)
 
 

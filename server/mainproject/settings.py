@@ -1,18 +1,8 @@
 import os
-from dotenv import load_dotenv, dotenv_values
-import environ
+from dotenv import load_dotenv
 from pathlib import Path
-import pymysql.cursors
 from django.template.context_processors import media
 
-pymysql.version_info = (1, 4, 3, "final", 0)
-pymysql.install_as_MySQLdb()
-
-
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
 
 # dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv()
@@ -28,10 +18,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "****************hidden*************************************"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # os.environ.get('DEBUG', False) == 'True'
+DEBUG = os.getenv("DEBUG")  # os.environ.get('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = ["127.0.0.1", "*"]
 
@@ -54,23 +44,23 @@ INSTALLED_APPS = [
     # "cloudinary_storage",  # Refer to https://pypi.org/project/django-cloudinary-storage/ documentation
     # "cloudinary",
     "livereload",
-    "crispy_forms",
-    "crispy_bootstrap5",
     "django_daraja",
     "django_otp",
     "django_otp.plugins.otp_totp",
+    "rest_framework",
+    "rest_framework_simplejwt",
 ]
 
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("CLOUD_NAME"),
-    "API_KEY": os.getenv("API_KEY"),
-    "API_SECRET": os.getenv("API_SECRET"),
-}
+# CLOUDINARY_STORAGE = {
+#     "CLOUD_NAME": os.getenv("CLOUD_NAME"),
+#     "API_KEY": os.getenv("API_KEY"),
+#     "API_SECRET": os.getenv("API_SECRET"),
+# }
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+# CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+# CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -84,6 +74,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "livereload.middleware.LiveReloadScript",
 ]
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
 
 CACHES = {
     "default": {
@@ -100,7 +95,7 @@ LOGIN_REDIRECT_URL = "dashboard"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "mainapp/templates"],
+        "DIRS": [BASE_DIR / ""],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
