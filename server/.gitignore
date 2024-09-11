@@ -1,6 +1,6 @@
 venv/
 db.sqlite
-venv/
+.venv/
 venv
 emobilisenv
 db.sqlite3
