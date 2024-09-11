@@ -112,22 +112,22 @@ class Unit(models.Model):
         unique_together = ["name", "course", "year_of_study"]
 
 
-class UnitTopic(models.Model):
-    """
-    Add a Unit Topic name eg: Linear Regression
-    """
+# class UnitTopic(models.Model):
+#     """
+#     Add a Unit Topic name eg: Linear Regression
+#     """
 
-    name = models.CharField(max_length=50)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="unit_topics")
+#     name = models.CharField(max_length=50)
+#     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="unit_topics")
 
-    def get_display_name(self):
-        return f"{self.unit.name.upper()}:{self.name}"
+#     def get_display_name(self):
+#         return f"{self.unit.name.upper()}:{self.name}"
 
-    def __str__(self):
-        return self.get_display_name()
+#     def __str__(self):
+#         return self.get_display_name()
 
-    class Meta:
-        unique_together = ["name", "unit"]
+#     class Meta:
+#         unique_together = ["name", "unit"]
 
 
 def note_file_path(instance, filename):

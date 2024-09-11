@@ -7,7 +7,7 @@ from .views import (
     UnitListCreateView,
     NoteListCreateView,
     UserListCreateView,
-    UnitTopicListCreateView,
+    # UnitTopicListCreateView,
     UserRequestListCreateView,
     SchoolRetrieveUpdateDestroyView,
     DepartmentRetrieveUpdateDestroyView,
@@ -15,7 +15,7 @@ from .views import (
     UnitRetrieveUpdateDestroyView,
     NoteRetrieveUpdateDestroyView,
     UserRetrieveUpdateDestroyView,
-    UnitTopicRetrieveUpdateDestroyView,
+    # UnitTopicRetrieveUpdateDestroyView,
     UserRequestRetrieveUpdateDestroyView,
 )
 from django.urls import path
@@ -37,9 +37,9 @@ urlpatterns = [
     path("units", UnitListCreateView.as_view(), name="unit-list-create"),
     path("notes", NoteListCreateView.as_view(), name="note-list-create"),
     path("users", UserListCreateView.as_view(), name="user-list-create"),
-    path(
-        "unit-topics", UnitTopicListCreateView.as_view(), name="unit-topic-list-create"
-    ),
+    # path(
+    #     "unit-topics", UnitTopicListCreateView.as_view(), name="unit-topic-list-create"
+    # ),
     path(
         "user-requests",
         UserRequestListCreateView.as_view(),
@@ -63,11 +63,11 @@ urlpatterns = [
     path("units<int:pk>", UnitRetrieveUpdateDestroyView.as_view(), name="unit-rud"),
     path("notes<int:pk>", NoteRetrieveUpdateDestroyView.as_view(), name="note-rud"),
     path("users<int:pk>", UserRetrieveUpdateDestroyView.as_view(), name="user-rud"),
-    path(
-        "unit-topics<int:pk>",
-        UnitTopicRetrieveUpdateDestroyView.as_view(),
-        name="unit-topic-rud",
-    ),
+    # path(
+    #     "unit-topics<int:pk>",
+    #     UnitTopicRetrieveUpdateDestroyView.as_view(),
+    #     name="unit-topic-rud",
+    # ),
     path(
         "user-requests<int:pk>",
         UserRequestRetrieveUpdateDestroyView.as_view(),

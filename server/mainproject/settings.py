@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ["127.0.0.1", "*"]
 # Application definition
 
 INSTALLED_APPS = [
-    "jazzmin",
+    # "jazzmin", # custom admin panel will be added later
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,8 +45,9 @@ INSTALLED_APPS = [
     # "cloudinary",
     "livereload",
     "django_daraja",
-    "django_otp",
-    "django_otp.plugins.otp_totp",
+    # OTP
+    # "django_otp",
+    # "django_otp.plugins.otp_totp",
     "rest_framework",
     "rest_framework_simplejwt",
 ]
@@ -69,7 +70,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django_otp.middleware.OTPMiddleware",
+    # "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "livereload.middleware.LiveReloadScript",

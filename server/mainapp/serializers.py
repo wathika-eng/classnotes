@@ -6,7 +6,6 @@ from .models import (
     Unit,
     Note,
     User,
-    UnitTopic,
     UserRequest,
 )
 from rest_framework import serializers
@@ -54,10 +53,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class UnitTopicSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UnitTopic
-        fields = "__all__"
+# class UnitTopicSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = UnitTopic
+#         fields = "__all__"
 
 
 class UserRequestSerializer(serializers.ModelSerializer):
