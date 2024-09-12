@@ -8,7 +8,11 @@ from .views import (
     UnitListCreateView,
     NoteListCreateView,
     UserListCreateView,
+    UserDetail,
     # UnitTopicListCreateView,
+    LogoutView,
+    SignUpView,
+    LoginView,
     UserRequestListCreateView,
     SchoolRetrieveUpdateDestroyView,
     DepartmentRetrieveUpdateDestroyView,
@@ -23,6 +27,10 @@ from django.urls import path
 
 urlpatterns = [
     path("test", APITest, name="api-root"),
+    path("signup", SignUpView.as_view(), name="signup"),
+    path("login", LoginView.as_view(), name="login"),
+    path("logout", LogoutView.as_view(), name="logout"),
+    path("me", UserDetail.as_view(), name="me"),
     path("colleges", CollegeListCreateView.as_view(), name="college-list-create"),
     path(
         "colleges<int:pk>",

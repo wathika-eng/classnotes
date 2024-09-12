@@ -1,7 +1,7 @@
 import uuid
-from django.contrib.auth.models import User
 from django.db import models
 import os
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -31,10 +31,25 @@ COURSE_CHOICES = [
 ]
 
 
+class User(AbstractUser):
+    ROLE_CHOICES = [
+        ("student", "Student"),
+        ("classrep", "Class Representative"),
+        ("moderator", "Moderator"),
+    ]
+
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="student")
+
+    def __str__(self):
+        return f"{self.username} - {self.get_role_display()}"
+
+    class Meta:
+        db_table = "auth_user"
+
+
 def note_file_path(instance, filename):
-    # Generate the file path based on the title and original file extension
     ext = filename.split(".")[-1]
-    filename = f"{instance.title}.{ext}"
+    filename = f"{uuid.uuid4().hex}.{ext}"  # Use UUID for unique filenames
     return os.path.join("media/", filename)
 
 
@@ -84,7 +99,9 @@ class Course(models.Model):
         return self.get_display_name()
 
     class Meta:
-        unique_together = ["name", "department"]
+        constraints = [
+            models.UniqueConstraint(fields=["name", "department"], name="unique_course")
+        ]
 
 
 # Model for Units
@@ -109,31 +126,11 @@ class Unit(models.Model):
         return self.get_display_name()
 
     class Meta:
-        unique_together = ["name", "course", "year_of_study"]
-
-
-# class UnitTopic(models.Model):
-#     """
-#     Add a Unit Topic name eg: Linear Regression
-#     """
-
-#     name = models.CharField(max_length=50)
-#     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="unit_topics")
-
-#     def get_display_name(self):
-#         return f"{self.unit.name.upper()}:{self.name}"
-
-#     def __str__(self):
-#         return self.get_display_name()
-
-#     class Meta:
-#         unique_together = ["name", "unit"]
-
-
-def note_file_path(instance, filename):
-    ext = filename.split(".")[-1]
-    filename = f"{uuid.uuid4().hex}.{ext}"  # Use UUID for unique filenames
-    return os.path.join("media/", filename)
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "course", "year_of_study"], name="unique_unit"
+            )
+        ]
 
 
 class Note(models.Model):
@@ -153,10 +150,10 @@ class Note(models.Model):
         return self.get_display_name()
 
     class Meta:
-        unique_together = (
-            ("title", "unit"),
-            ("file", "unit"),
-        )
+        constraints = [
+            models.UniqueConstraint(fields=["title", "unit"], name="unique_note_title"),
+            models.UniqueConstraint(fields=["file", "unit"], name="unique_note_file"),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.title:
@@ -169,3 +166,6 @@ class UserRequest(models.Model):
     yourschool = models.CharField(max_length=20, null=True)
     yourcourse = models.CharField(max_length=20, null=True)
     enquiry = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.yourschool} - {self.yourcourse}"
