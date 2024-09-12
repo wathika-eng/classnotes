@@ -1,4 +1,5 @@
 from .views import (
+    APITest,
     SchoolListCreateView,
     CollegeListCreateView,
     CollegeRetrieveUpdateDestroyView,
@@ -21,6 +22,7 @@ from .views import (
 from django.urls import path
 
 urlpatterns = [
+    path("test", APITest, name="api-root"),
     path("colleges", CollegeListCreateView.as_view(), name="college-list-create"),
     path(
         "colleges<int:pk>",
