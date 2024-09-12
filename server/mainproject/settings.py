@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "cloudinary",
     "mainapp.apps.MainappConfig",
+    "corsheaders",
     # "cloudinary_storage",  # Refer to https://pypi.org/project/django-cloudinary-storage/ documentation
     # "cloudinary",
     "livereload",
@@ -71,6 +72,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     # "django_otp.middleware.OTPMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "livereload.middleware.LiveReloadScript",
@@ -81,6 +83,7 @@ REST_FRAMEWORK = {
     )
 }
 #
+CORS_ALLOW_ALL_ORIGINS = True
 AUTH_USER_MODEL = "mainapp.User"
 
 CACHES = {
