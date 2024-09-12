@@ -127,6 +127,18 @@ class UserDetail(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return Response({"message": "User deleted"}, status=status.HTTP_204_NO_CONTENT)
+
 
 # class UnitTopicListCreateView(generics.ListCreateAPIView):
 #     queryset = UnitTopic.objects.all()
