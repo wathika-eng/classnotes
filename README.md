@@ -1,4 +1,4 @@
-**Live URL link** => https://uninotes-wroj.onrender.com/mpesa/callback/
+**Live URL link** => https://uninotes-wroj.onrender.com/
 
 `username: test`
 `password: test001`
