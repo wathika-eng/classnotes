@@ -1,3 +1,8 @@
+**Live URL link** => https://uninotes-wroj.onrender.com/mpesa/callback/
+
+`username: test`
+`password: test001`
+
 **Short demo on how it works** => https://mega.nz/file/qH51TAja#__5rijCfhn-VfKOwdnYkyTSw2ciOKHUjBnVZXfEwPVY
 
 **University Notes Project**
